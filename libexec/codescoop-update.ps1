@@ -1,6 +1,6 @@
 # Usage: codescoop update <app> [options]
-# Summary: Update apps, or Scoop itself
-# Help: 'codescoop update' updates Scoop to the latest version.
+# Summary: Update apps, or CodeScoop itself
+# Help: 'codescoop update' updates CodeScoop to the latest version.
 # 'codescoop update <app>' installs a new version of that app, if there is one.
 #
 # You can use '*' in place of <app> to update all apps.
@@ -37,7 +37,7 @@ $all = $opt.a -or $opt.all
 # load config
 $configRepo = get_config SCOOP_REPO
 if (!$configRepo) {
-    $configRepo = 'https://github.com/ScoopInstaller/Scoop'
+    $configRepo = 'https://github.com/tomsnunes/CodeScoop'
     set_config SCOOP_REPO $configRepo | Out-Null
 }
 
@@ -50,22 +50,22 @@ if (!$configBranch) {
 
 if (($PSVersionTable.PSVersion.Major) -lt 5) {
     # check powershell version
-    Write-Output 'PowerShell 5 or later is required to run Scoop.'
+    Write-Output 'PowerShell 5 or later is required to run CodeScoop.'
     Write-Output 'Upgrade PowerShell: https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-core-on-windows'
     break
 }
 $show_update_log = get_config SHOW_UPDATE_LOG $true
 
 function update_scoop($show_update_log) {
-    # Test if Scoop Core is hold
+    # Test if CodeScoop Core is hold
     if (Test-ScoopCoreOnHold) {
         return
     }
 
     # check for git
-    if (!(Test-CommandAvailable git)) { abort "Scoop uses Git to update itself. Run 'codescoop install git' and try again." }
+    if (!(Test-CommandAvailable git)) { abort "CodeScoop uses Git to update itself. Run 'codescoop install git' and try again." }
 
-    Write-Host 'Updating Scoop...'
+    Write-Host 'Updating CodeScoop...'
     $currentdir = fullpath $(versiondir 'codescoop' 'current')
     if (!(Test-Path "$currentdir\.git")) {
         $newdir = "$currentdir\..\new"
@@ -77,7 +77,7 @@ function update_scoop($show_update_log) {
         # check if codescoop was successful downloaded
         if (!(Test-Path "$newdir\bin\codescoop.ps1")) {
             Remove-Item $newdir -Force -Recurse
-            abort "Scoop download failed. If this appears several times, try removing SCOOP_REPO by 'codescoop config rm SCOOP_REPO'"
+            abort "CodeScoop download failed. If this appears several times, try removing SCOOP_REPO by 'codescoop config rm SCOOP_REPO'"
         } else {
             # replace non-git codescoop with the git version
             try {
@@ -85,7 +85,7 @@ function update_scoop($show_update_log) {
                 Rename-Item $newdir 'current' -ErrorAction Stop
             } catch {
                 Write-Warning $_
-                abort "Scoop update failed. Folder in use. Paste $newdir into $currentdir."
+                abort "CodeScoop update failed. Folder in use. Paste $newdir into $currentdir."
             }
         }
     } else {
@@ -142,7 +142,7 @@ function update_scoop($show_update_log) {
 
     # This should have been deprecated after 2019-05-12
     # if ((Get-LocalBucket) -notcontains 'main') {
-    #     info "The main bucket of Scoop has been separated to 'https://github.com/ScoopInstaller/Main'"
+    #     info "The main bucket of CodeScoop has been separated to 'https://github.com/ScoopInstaller/Main'"
     #     info "Adding main bucket..."
     #     add_bucket 'main'
     # }
@@ -152,7 +152,7 @@ function update_scoop($show_update_log) {
 
 function update_bucket($show_update_log) {
     # check for git
-    if (!(Test-CommandAvailable git)) { abort "Scoop uses Git to update main bucket and others. Run 'codescoop install git' and try again." }
+    if (!(Test-CommandAvailable git)) { abort "CodeScoop uses Git to update main bucket and others. Run 'codescoop install git' and try again." }
 
     foreach ($bucket in Get-LocalBucket) {
         Write-Host "Updating '$bucket' bucket..."
@@ -221,7 +221,7 @@ function update($app, $global, $quiet = $false, $independent, $suggested, $use_c
     Write-Host "Updating '$app' ($old_version -> $version)"
 
     # region Workaround
-    # Workaround for https://github.com/ScoopInstaller/Scoop/issues/2220 until install is refactored
+    # Workaround for https://github.com/ScoopInstaller/CodeScoop/issues/2220 until install is refactored
     # Remove and replace whole region after proper fix
     Write-Host 'Downloading new version'
     if (Test-Aria2Enabled) {
@@ -324,7 +324,7 @@ if (-not ($apps -or $all)) {
     update_scoop $show_update_log
     update_bucket $show_update_log
     set_config LAST_UPDATE ([System.DateTime]::Now.ToString('o')) | Out-Null
-    success 'Scoop was updated successfully!'
+    success 'CodeScoop was updated successfully!'
 } else {
     if ($global -and !(is_admin)) {
         'ERROR: You need admin rights to update global apps.'; exit 1
@@ -339,7 +339,7 @@ if (-not ($apps -or $all)) {
         update_scoop $show_update_log
         update_bucket $show_update_log
         set_config LAST_UPDATE ([System.DateTime]::Now.ToString('o')) | Out-Null
-        success 'Scoop was updated successfully!'
+        success 'CodeScoop was updated successfully!'
     }
 
     if ($apps_param -eq '*' -or $all) {
@@ -374,7 +374,7 @@ if (-not ($apps -or $all)) {
         }
 
         if ($outdated -and ((Test-Aria2Enabled) -and (get_config 'aria2-warning-enabled' $true))) {
-            warn "Scoop uses 'aria2c' for multi-connection downloads."
+            warn "CodeScoop uses 'aria2c' for multi-connection downloads."
             warn "Should it cause issues, run 'codescoop config aria2-enabled false' to disable it."
             warn "To disable this warning, run 'codescoop config aria2-warning-enabled false'."
         }

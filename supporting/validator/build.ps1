@@ -13,9 +13,9 @@ if (!$Fast) {
     Get-ChildItem "$PSScriptRoot\packages\Newtonsoft.*\lib\net45\*.dll" -File | ForEach-Object { Copy-Item $_ $output }
 }
 Write-Output 'Compiling Scoop.Validator.cs ...'
-& "$PSScriptRoot\packages\Microsoft.Net.Compilers.Toolset\tasks\net472\csc.exe" -deterministic -platform:anycpu -nologo -optimize -target:library -reference:"$output\Newtonsoft.Json.dll" -reference:"$output\Newtonsoft.Json.Schema.dll" -out:"$output\Scoop.Validator.dll" Scoop.Validator.cs
+& "$PSScriptRoot\packages\Microsoft.Net.Compilers.Toolset\tasks\net472\csc.exe" -deterministic -platform:anycpu -nologo -optimize -target:library -reference:"$output\Newtonsoft.Json.dll" -reference:"$output\Newtonsoft.Json.Schema.dll" -out:"$output\codescoop.Validator.dll" Scoop.Validator.cs
 Write-Output 'Compiling validator.cs ...'
-& "$PSScriptRoot\packages\Microsoft.Net.Compilers.Toolset\tasks\net472\csc.exe" -deterministic -platform:anycpu -nologo -optimize -target:exe -reference:"$output\Scoop.Validator.dll" -reference:"$output\Newtonsoft.Json.dll" -reference:"$output\Newtonsoft.Json.Schema.dll" -out:"$output\validator.exe" validator.cs
+& "$PSScriptRoot\packages\Microsoft.Net.Compilers.Toolset\tasks\net472\csc.exe" -deterministic -platform:anycpu -nologo -optimize -target:exe -reference:"$output\codescoop.Validator.dll" -reference:"$output\Newtonsoft.Json.dll" -reference:"$output\Newtonsoft.Json.Schema.dll" -out:"$output\validator.exe" validator.cs
 
 Write-Output 'Computing checksums ...'
 Remove-Item "$PSScriptRoot\bin\checksum.sha256" -ErrorAction Ignore

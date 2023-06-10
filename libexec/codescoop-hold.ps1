@@ -1,10 +1,10 @@
-# Usage: scoop hold <apps>
+# Usage: codescoop hold <apps>
 # Summary: Hold an app to disable updates
 # Help: To hold a user-scoped app:
-#      scoop hold <app>
+#      codescoop hold <app>
 #
 # To hold a global app:
-#      scoop hold -g <app>
+#      codescoop hold -g <app>
 #
 # Options:
 #   -g, --global  Hold globally installed apps
@@ -15,7 +15,7 @@
 . "$PSScriptRoot\..\lib\versions.ps1" # 'Select-CurrentVersion'
 
 $opt, $apps, $err = getopt $args 'g' 'global'
-if ($err) { "scoop hold: $err"; exit 1 }
+if ($err) { "codescoop hold: $err"; exit 1 }
 
 $global = $opt.g -or $opt.global
 
@@ -32,7 +32,7 @@ if ($global -and !(is_admin)) {
 $apps | ForEach-Object {
     $app = $_
 
-    if ($app -eq 'scoop') {
+    if ($app -eq 'codescoop') {
         $hold_update_until = [System.DateTime]::Now.AddDays(1)
         set_config HOLD_UPDATE_UNTIL $hold_update_until.ToString('o') | Out-Null
         success "$app is now held and might not be updated until $($hold_update_until.ToLocalTime())."
@@ -47,7 +47,7 @@ $apps | ForEach-Object {
         return
     }
 
-    if (get_config NO_JUNCTION){
+    if (get_config NO_JUNCTION) {
         $version = Select-CurrentVersion -App $app -Global:$global
     } else {
         $version = 'current'

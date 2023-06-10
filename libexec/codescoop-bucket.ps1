@@ -1,4 +1,4 @@
-# Usage: scoop bucket add|list|known|rm [<args>]
+# Usage: codescoop bucket add|list|known|rm [<args>]
 # Summary: Manage Scoop buckets
 # Help: Add, list or remove buckets.
 #
@@ -7,20 +7,20 @@
 # published.
 #
 # To add a bucket:
-#     scoop bucket add <name> [<repo>]
+#     codescoop bucket add <name> [<repo>]
 #
 # e.g.:
-#     scoop bucket add extras https://github.com/ScoopInstaller/Extras.git
+#     codescoop bucket add extras https://github.com/ScoopInstaller/Extras.git
 #
 # Since the 'extras' bucket is known to Scoop, this can be shortened to:
-#     scoop bucket add extras
+#     codescoop bucket add extras
 #
 # To list all known buckets, use:
-#     scoop bucket known
+#     codescoop bucket known
 param($cmd, $name, $repo)
 
-$usage_add = 'usage: scoop bucket add <name> [<repo>]'
-$usage_rm = 'usage: scoop bucket rm <name>'
+$usage_add = 'usage: codescoop bucket add <name> [<repo>]'
+$usage_rm = 'usage: codescoop bucket rm <name>'
 
 switch ($cmd) {
     'add' {
@@ -52,7 +52,7 @@ switch ($cmd) {
     'list' {
         $buckets = list_buckets
         if (!$buckets.Length) {
-            warn "No bucket found. Please run 'scoop bucket add main' to add the default 'main' bucket."
+            warn "No bucket found. Please run 'codescoop bucket add main' to add the default 'main' bucket."
             exit 2
         } else {
             $buckets
@@ -64,7 +64,7 @@ switch ($cmd) {
         exit 0
     }
     default {
-        "scoop bucket: cmd '$cmd' not supported"
+        "codescoop bucket: cmd '$cmd' not supported"
         my_usage
         exit 1
     }

@@ -1,4 +1,4 @@
-# Usage: scoop prefix <app>
+# Usage: codescoop prefix <app>
 # Summary: Returns the path to the specified app
 param($app)
 

@@ -1,4 +1,4 @@
-# Usage: scoop create <url>
+# Usage: codescoop create <url>
 # Summary: Create a custom app manifest
 # Help: Create your own custom app manifest
 param($url)
@@ -59,7 +59,7 @@ function choose_item($list, $query) {
 }
 
 if (!$url) {
-    scoop help create
+    codescoop help create
 } else {
     create_manifest $url
 }

@@ -1,16 +1,16 @@
-# Usage: scoop alias add|list|rm [<args>]
-# Summary: Manage scoop aliases
+# Usage: codescoop alias add|list|rm [<args>]
+# Summary: Manage codescoop aliases
 # Help: Add, remove or list Scoop aliases
 #
 # Aliases are custom Scoop subcommands that can be created to make common tasks
 # easier.
 #
 # To add an Alias:
-#     scoop alias add <name> <command> <description>
+#     codescoop alias add <name> <command> <description>
 #
 # e.g.:
-#     scoop alias add rm 'scoop uninstall $args[0]' 'Uninstalls an app'
-#     scoop alias add upgrade 'scoop update *' 'Updates all apps, just like brew or apt'
+#     codescoop alias add rm 'codescoop uninstall $args[0]' 'Uninstalls an app'
+#     codescoop alias add upgrade 'codescoop update *' 'Updates all apps, just like brew or apt'
 #
 # Options:
 #   -v, --verbose   Show alias description and table headers (works only for 'list')
@@ -94,7 +94,7 @@ function list_aliases {
     }
 
     if (!$aliases.count) {
-        info "No alias found."
+        info 'No alias found.'
     }
     $aliases = $aliases.GetEnumerator() | Sort-Object Name
     if ($verbose) {

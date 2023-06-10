@@ -1,15 +1,15 @@
-# Usage: scoop cache show|rm [app(s)]
+# Usage: codescoop cache show|rm [app(s)]
 # Summary: Show or clear the download cache
 # Help: Scoop caches downloads so you don't need to download the same files
 # when you uninstall and re-install the same version of an app.
 #
 # You can use
-#     scoop cache show
+#     codescoop cache show
 # to see what's in the cache, and
-#     scoop cache rm <app> to remove downloads for a specific app.
+#     codescoop cache rm <app> to remove downloads for a specific app.
 #
 # To clear everything in your cache, use:
-#     scoop cache rm *
+#     codescoop cache rm *
 # You can also use the `-a/--all` switch in place of `*` here
 
 param($cmd)
@@ -50,7 +50,7 @@ function cacheremove($app) {
         $curr = cacheinfo $_
         Write-Host "Removing $($curr.URL)..."
         Remove-Item $_.FullName
-        if(Test-Path "$cachedir\$($curr.Name).txt") {
+        if (Test-Path "$cachedir\$($curr.Name).txt") {
             Remove-Item "$cachedir\$($curr.Name).txt"
         }
     }
@@ -58,7 +58,7 @@ function cacheremove($app) {
     Write-Host "Deleted: $($files.Length) $(pluralize $files.Length 'file' 'files'), $(filesize $totalLength)" -ForegroundColor Yellow
 }
 
-switch($cmd) {
+switch ($cmd) {
     'rm' {
         cacheremove $Args
     }

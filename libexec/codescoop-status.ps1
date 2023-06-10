@@ -1,4 +1,4 @@
-# Usage: scoop status
+# Usage: codescoop status
 # Summary: Show status and check for new app versions
 # Help: Options:
 #   -l, --local         Checks the status for only the locally installed apps,
@@ -7,8 +7,8 @@
 . "$PSScriptRoot\..\lib\manifest.ps1" # 'manifest' 'parse_json' "install_info"
 . "$PSScriptRoot\..\lib\versions.ps1" # 'Select-CurrentVersion'
 
-# check if scoop needs updating
-$currentdir = fullpath $(versiondir 'scoop' 'current')
+# check if codescoop needs updating
+$currentdir = fullpath $(versiondir 'codescoop' 'current')
 $needs_update = $false
 $bucket_needs_update = $false
 $script:network_failure = $false
@@ -23,7 +23,7 @@ function Test-UpdateStatus($repopath) {
     if (Test-Path "$repopath\.git") {
         git_cmd -C "`"$repopath`"" fetch -q origin
         $script:network_failure = 128 -eq $LASTEXITCODE
-        $branch  = git -C $repopath branch --show-current
+        $branch = git -C $repopath branch --show-current
         $commits = git -C $repopath log "HEAD..origin/$branch" --oneline
         if ($commits) { return $true }
         else { return $false }
@@ -43,9 +43,9 @@ if (!$no_remotes) {
 }
 
 if ($needs_update) {
-    warn "Scoop out of date. Run 'scoop update' to get the latest changes."
+    warn "Scoop out of date. Run 'codescoop update' to get the latest changes."
 } elseif ($bucket_needs_update) {
-    warn "Scoop bucket(s) out of date. Run 'scoop update' to get the latest changes."
+    warn "Scoop bucket(s) out of date. Run 'codescoop update' to get the latest changes."
 } elseif (!$script:network_failure -and !$no_remotes) {
     success 'Scoop is up to date.'
 }
@@ -55,7 +55,7 @@ $true, $false | ForEach-Object { # local and global apps
     $dir = appsdir $global
     if (!(Test-Path $dir)) { return }
 
-    Get-ChildItem $dir | Where-Object name -NE 'scoop' | ForEach-Object {
+    Get-ChildItem $dir | Where-Object name -NE 'codescoop' | ForEach-Object {
         $app = $_.name
         $status = app_status $app $global
         if (!$status.outdated -and !$status.failed -and !$status.removed -and !$status.missing_deps) { return }
@@ -63,11 +63,11 @@ $true, $false | ForEach-Object { # local and global apps
         $item = [ordered]@{}
         $item.Name = $app
         $item.'Installed Version' = $status.version
-        $item.'Latest Version' = if ($status.outdated) { $status.latest_version } else { "" }
+        $item.'Latest Version' = if ($status.outdated) { $status.latest_version } else { '' }
         $item.'Missing Dependencies' = $status.missing_deps -Split ' ' -Join ' | '
         $info = @()
-        if ($status.failed)  { $info += 'Install failed' }
-        if ($status.hold)    { $info += 'Held package' }
+        if ($status.failed) { $info += 'Install failed' }
+        if ($status.hold) { $info += 'Held package' }
         if ($status.removed) { $info += 'Manifest removed' }
         $item.Info = $info -join ', '
         $list += [PSCustomObject]$item

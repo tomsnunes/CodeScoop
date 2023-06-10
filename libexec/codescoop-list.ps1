@@ -1,4 +1,4 @@
-# Usage: scoop list [query]
+# Usage: codescoop list [query]
 # Summary: List installed apps
 # Help: Lists all installed apps, or the apps matching the supplied query.
 param($query)

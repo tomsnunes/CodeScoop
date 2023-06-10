@@ -1,7 +1,7 @@
-# Usage: scoop cleanup <app> [options]
+# Usage: codescoop cleanup <app> [options]
 # Summary: Cleanup apps by removing old versions
-# Help: 'scoop cleanup' cleans Scoop apps by removing old versions.
-# 'scoop cleanup <app>' cleans up the old versions of that app if said versions exist.
+# Help: 'codescoop cleanup' cleans Scoop apps by removing old versions.
+# 'codescoop cleanup <app>' cleans up the old versions of that app if said versions exist.
 #
 # You can use '*' in place of <app> or `-a`/`--all` switch to cleanup all apps.
 #
@@ -16,7 +16,7 @@
 . "$PSScriptRoot\..\lib\install.ps1" # persist related
 
 $opt, $apps, $err = getopt $args 'agk' 'all', 'global', 'cache'
-if ($err) { "scoop cleanup: $err"; exit 1 }
+if ($err) { "codescoop cleanup: $err"; exit 1 }
 $global = $opt.g -or $opt.global
 $cache = $opt.k -or $opt.cache
 $all = $opt.a -or $opt.all

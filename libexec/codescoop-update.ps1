@@ -1,7 +1,7 @@
-# Usage: scoop update <app> [options]
+# Usage: codescoop update <app> [options]
 # Summary: Update apps, or Scoop itself
-# Help: 'scoop update' updates Scoop to the latest version.
-# 'scoop update <app>' installs a new version of that app, if there is one.
+# Help: 'codescoop update' updates Scoop to the latest version.
+# 'codescoop update <app>' installs a new version of that app, if there is one.
 #
 # You can use '*' in place of <app> to update all apps.
 #
@@ -25,7 +25,7 @@
 . "$PSScriptRoot\..\lib\install.ps1"
 
 $opt, $apps, $err = getopt $args 'gfiksqa' 'global', 'force', 'independent', 'no-cache', 'skip', 'quiet', 'all'
-if ($err) { "scoop update: $err"; exit 1 }
+if ($err) { "codescoop update: $err"; exit 1 }
 $global = $opt.g -or $opt.global
 $force = $opt.f -or $opt.force
 $check_hash = !($opt.s -or $opt.skip)
@@ -37,49 +37,49 @@ $all = $opt.a -or $opt.all
 # load config
 $configRepo = get_config SCOOP_REPO
 if (!$configRepo) {
-    $configRepo = "https://github.com/ScoopInstaller/Scoop"
+    $configRepo = 'https://github.com/ScoopInstaller/Scoop'
     set_config SCOOP_REPO $configRepo | Out-Null
 }
 
 # Find current update channel from config
 $configBranch = get_config SCOOP_BRANCH
 if (!$configBranch) {
-    $configBranch = "master"
+    $configBranch = 'master'
     set_config SCOOP_BRANCH $configBranch | Out-Null
 }
 
-if(($PSVersionTable.PSVersion.Major) -lt 5) {
+if (($PSVersionTable.PSVersion.Major) -lt 5) {
     # check powershell version
-    Write-Output "PowerShell 5 or later is required to run Scoop."
-    Write-Output "Upgrade PowerShell: https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-core-on-windows"
+    Write-Output 'PowerShell 5 or later is required to run Scoop.'
+    Write-Output 'Upgrade PowerShell: https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-core-on-windows'
     break
 }
 $show_update_log = get_config SHOW_UPDATE_LOG $true
 
 function update_scoop($show_update_log) {
     # Test if Scoop Core is hold
-    if(Test-ScoopCoreOnHold) {
+    if (Test-ScoopCoreOnHold) {
         return
     }
 
     # check for git
-    if (!(Test-CommandAvailable git)) { abort "Scoop uses Git to update itself. Run 'scoop install git' and try again." }
+    if (!(Test-CommandAvailable git)) { abort "Scoop uses Git to update itself. Run 'codescoop install git' and try again." }
 
-    Write-Host "Updating Scoop..."
-    $currentdir = fullpath $(versiondir 'scoop' 'current')
+    Write-Host 'Updating Scoop...'
+    $currentdir = fullpath $(versiondir 'codescoop' 'current')
     if (!(Test-Path "$currentdir\.git")) {
         $newdir = "$currentdir\..\new"
         $olddir = "$currentdir\..\old"
 
-        # get git scoop
+        # get git codescoop
         git_cmd clone -q $configRepo --branch $configBranch --single-branch "`"$newdir`""
 
-        # check if scoop was successful downloaded
+        # check if codescoop was successful downloaded
         if (!(Test-Path "$newdir\bin\codescoop.ps1")) {
             Remove-Item $newdir -Force -Recurse
-            abort "Scoop download failed. If this appears several times, try removing SCOOP_REPO by 'scoop config rm SCOOP_REPO'"
+            abort "Scoop download failed. If this appears several times, try removing SCOOP_REPO by 'codescoop config rm SCOOP_REPO'"
         } else {
-            # replace non-git scoop with the git version
+            # replace non-git codescoop with the git version
             try {
                 Rename-Item $currentdir 'old' -ErrorAction Stop
                 Rename-Item $newdir 'current' -ErrorAction Stop
@@ -103,10 +103,10 @@ function update_scoop($show_update_log) {
         # Stash uncommitted changes
         if (git -C "$currentdir" diff HEAD --name-only) {
             if (get_config AUTOSTASH_ON_CONFLICT) {
-                warn "Uncommitted changes detected. Stashing..."
+                warn 'Uncommitted changes detected. Stashing...'
                 git -C "$currentdir" stash push -m "WIP at $([System.DateTime]::Now.ToString('o'))" -u -q
             } else {
-                warn "Uncommitted changes detected. Update aborted."
+                warn 'Uncommitted changes detected. Update aborted.'
                 return
             }
         }
@@ -152,7 +152,7 @@ function update_scoop($show_update_log) {
 
 function update_bucket($show_update_log) {
     # check for git
-    if (!(Test-CommandAvailable git)) { abort "Scoop uses Git to update main bucket and others. Run 'scoop install git' and try again." }
+    if (!(Test-CommandAvailable git)) { abort "Scoop uses Git to update main bucket and others. Run 'codescoop install git' and try again." }
 
     foreach ($bucket in Get-LocalBucket) {
         Write-Host "Updating '$bucket' bucket..."
@@ -223,7 +223,7 @@ function update($app, $global, $quiet = $false, $independent, $suggested, $use_c
     # region Workaround
     # Workaround for https://github.com/ScoopInstaller/Scoop/issues/2220 until install is refactored
     # Remove and replace whole region after proper fix
-    Write-Host "Downloading new version"
+    Write-Host 'Downloading new version'
     if (Test-Aria2Enabled) {
         Invoke-CachedAria2Download $app $version $manifest $architecture $cachedir $manifest.cookie $true $check_hash
     } else {
@@ -241,12 +241,12 @@ function update($app, $global, $quiet = $false, $independent, $suggested, $use_c
                     error $err
                     if (Test-Path $source) {
                         # rm cached file
-                        Remove-Item -force $source
+                        Remove-Item -Force $source
                     }
                     if ($url.Contains('sourceforge.net')) {
                         Write-Host -f yellow 'SourceForge.net is known for causing hash validation fails. Please try again before opening a ticket.'
                     }
-                    abort $(new_issue_msg $app $bucket "hash check failed")
+                    abort $(new_issue_msg $app $bucket 'hash check failed')
                 }
             }
         }
@@ -314,11 +314,11 @@ function update($app, $global, $quiet = $false, $independent, $suggested, $use_c
 
 if (-not ($apps -or $all)) {
     if ($global) {
-        error 'scoop update: --global is invalid when <app> is not specified.'
+        error 'codescoop update: --global is invalid when <app> is not specified.'
         exit 1
     }
     if (!$use_cache) {
-        error 'scoop update: --no-cache is invalid when <app> is not specified.'
+        error 'codescoop update: --no-cache is invalid when <app> is not specified.'
         exit 1
     }
     update_scoop $show_update_log
@@ -331,8 +331,8 @@ if (-not ($apps -or $all)) {
     }
 
     $outdated = @()
-    $updateScoop = $null -ne ($apps | Where-Object { $_ -eq 'scoop' }) -or (is_scoop_outdated)
-    $apps = $apps | Where-Object { $_ -ne 'scoop' }
+    $updateScoop = $null -ne ($apps | Where-Object { $_ -eq 'codescoop' }) -or (is_scoop_outdated)
+    $apps = $apps | Where-Object { $_ -ne 'codescoop' }
     $apps_param = $apps
 
     if ($updateScoop) {
@@ -375,15 +375,15 @@ if (-not ($apps -or $all)) {
 
         if ($outdated -and ((Test-Aria2Enabled) -and (get_config 'aria2-warning-enabled' $true))) {
             warn "Scoop uses 'aria2c' for multi-connection downloads."
-            warn "Should it cause issues, run 'scoop config aria2-enabled false' to disable it."
-            warn "To disable this warning, run 'scoop config aria2-warning-enabled false'."
+            warn "Should it cause issues, run 'codescoop config aria2-enabled false' to disable it."
+            warn "To disable this warning, run 'codescoop config aria2-warning-enabled false'."
         }
         if ($outdated.Length -gt 1) {
             Write-Host -f DarkCyan "Updating $($outdated.Length) outdated apps:"
         } elseif ($outdated.Length -eq 0) {
-            Write-Host -f Green "Latest versions for all apps are installed! For more information try 'scoop status'"
+            Write-Host -f Green "Latest versions for all apps are installed! For more information try 'codescoop status'"
         } else {
-            Write-Host -f DarkCyan "Updating one outdated app:"
+            Write-Host -f DarkCyan 'Updating one outdated app:'
         }
     }
 

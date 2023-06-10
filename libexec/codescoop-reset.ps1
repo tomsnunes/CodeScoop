@@ -1,7 +1,7 @@
-# Usage: scoop reset <app>
+# Usage: codescoop reset <app>
 # Summary: Reset an app to resolve conflicts
 # Help: Used to resolve conflicts in favor of a particular app. For example,
-# if you've installed 'python' and 'python27', you can use 'scoop reset' to switch between
+# if you've installed 'python' and 'python27', you can use 'codescoop reset' to switch between
 # using one or the other.
 #
 # You can use '*' in place of <app> or `-a`/`--all` switch to reset all apps.
@@ -13,14 +13,14 @@
 . "$PSScriptRoot\..\lib\shortcuts.ps1"
 
 $opt, $apps, $err = getopt $args 'a' 'all'
-if($err) { "scoop reset: $err"; exit 1 }
+if ($err) { "codescoop reset: $err"; exit 1 }
 $all = $opt.a -or $opt.all
 
-if(!$apps -and !$all) { error '<app> missing'; my_usage; exit 1 }
+if (!$apps -and !$all) { error '<app> missing'; my_usage; exit 1 }
 
-if($apps -eq '*' -or $all) {
-    $local = installed_apps $false | ForEach-Object { ,@($_, $false) }
-    $global = installed_apps $true | ForEach-Object { ,@($_, $true) }
+if ($apps -eq '*' -or $all) {
+    $local = installed_apps $false | ForEach-Object { , @($_, $false) }
+    $global = installed_apps $true | ForEach-Object { , @($_, $true) }
     $apps = @($local) + @($global)
 }
 
@@ -29,17 +29,17 @@ $apps | ForEach-Object {
 
     $app, $bucket, $version = parse_app $app
 
-    if(($global -eq $null) -and (installed $app $true)) {
+    if (($global -eq $null) -and (installed $app $true)) {
         # set global flag when running reset command on specific app
         $global = $true
     }
 
-    if($app -eq 'scoop') {
-        # skip scoop
+    if ($app -eq 'codescoop') {
+        # skip codescoop
         return
     }
 
-    if(!(installed $app)) {
+    if (!(installed $app)) {
         error "'$app' isn't installed"
         return
     }
@@ -56,12 +56,12 @@ $apps | ForEach-Object {
         return
     }
 
-    if($global -and !(is_admin)) {
+    if ($global -and !(is_admin)) {
         warn "'$app' ($version) is a global app. You need admin rights to reset it. Skipping."
         return
     }
 
-    write-host "Resetting $app ($version)."
+    Write-Host "Resetting $app ($version)."
 
     $dir = Convert-Path (versiondir $app $version $global)
     $original_dir = $dir

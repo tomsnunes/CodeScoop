@@ -1,17 +1,17 @@
-# Usage: scoop download <app> [options]
+# Usage: codescoop download <app> [options]
 # Summary: Download apps in the cache folder and verify hashes
 # Help: e.g. The usual way to download an app, without installing it (uses your local 'buckets'):
-#      scoop download git
+#      codescoop download git
 #
 # To download a different version of the app
 # (note that this will auto-generate the manifest using current version):
-#      scoop download gh@2.7.0
+#      codescoop download gh@2.7.0
 #
 # To download an app from a manifest at a URL:
-#      scoop download https://raw.githubusercontent.com/ScoopInstaller/Main/master/bucket/runat.json
+#      codescoop download https://raw.githubusercontent.com/ScoopInstaller/Main/master/bucket/runat.json
 #
 # To download an app from a manifest on your computer
-#      scoop download path\to\app.json
+#      codescoop download path\to\app.json
 #
 # Options:
 #   -f, --force                     Force download (overwrite cache)
@@ -26,7 +26,7 @@
 . "$PSScriptRoot\..\lib\install.ps1"
 
 $opt, $apps, $err = getopt $args 'fhua:' 'force', 'no-hash-check', 'no-update-scoop', 'arch='
-if ($err) { error "scoop download: $err"; exit 1 }
+if ($err) { error "codescoop download: $err"; exit 1 }
 
 $check_hash = !($opt.h -or $opt.'no-hash-check')
 $use_cache = !($opt.f -or $opt.force)
@@ -41,14 +41,14 @@ if (!$apps) { error '<app> missing'; my_usage; exit 1 }
 
 if (is_scoop_outdated) {
     if ($opt.u -or $opt.'no-update-scoop') {
-        warn "Scoop is out of date."
+        warn 'Scoop is out of date.'
     } else {
-        scoop update
+        codescoop update
     }
 }
 
 # we only want to show this warning once
-if(!$use_cache) { warn "Cache is being ignored." }
+if (!$use_cache) { warn 'Cache is being ignored.' }
 
 foreach ($curr_app in $apps) {
     # Prevent leaking variables from previous iteration
@@ -69,16 +69,16 @@ foreach ($curr_app in $apps) {
         $manifest = parse_json($generated)
     }
 
-    if(!$manifest) {
+    if (!$manifest) {
         error "Couldn't find manifest for '$app'$(if($url) { " at the URL $url" })."
         continue
     }
     $version = $manifest.version
-    if(!$version) {
+    if (!$version) {
         error "Manifest doesn't specify a version."
         continue
     }
-    if($version -match '[^\w\.\-\+_]') {
+    if ($version -match '[^\w\.\-\+_]') {
         error "Manifest version has unsupported character '$($matches[0])'."
         continue
     }
@@ -95,38 +95,38 @@ foreach ($curr_app in $apps) {
         continue
     }
 
-    if(Test-Aria2Enabled) {
+    if (Test-Aria2Enabled) {
         Invoke-CachedAria2Download $app $version $manifest $architecture $cachedir $manifest.cookie $use_cache $curr_check_hash
     } else {
-        foreach($url in script:url $manifest $architecture) {
+        foreach ($url in script:url $manifest $architecture) {
             try {
                 Invoke-CachedDownload $app $version $url $null $manifest.cookie $use_cache
             } catch {
-                write-host -f darkred $_
+                Write-Host -f darkred $_
                 error "URL $url is not valid"
                 $dl_failure = $true
                 continue
             }
 
-            if($curr_check_hash) {
+            if ($curr_check_hash) {
                 $manifest_hash = hash_for_url $manifest $url $architecture
                 $cached = cache_path $app $version $url
                 $ok, $err = check_hash $cached $manifest_hash (show_app $app $bucket)
 
-                if(!$ok) {
+                if (!$ok) {
                     error $err
-                    if(test-path $cached) {
+                    if (Test-Path $cached) {
                         # rm cached file
-                        Remove-Item -force $cached
+                        Remove-Item -Force $cached
                     }
                     if ($url -like '*sourceforge.net*') {
                         warn 'SourceForge.net is known for causing hash validation fails. Please try again before opening a ticket.'
                     }
-                    error (new_issue_msg $app $bucket "hash check failed")
+                    error (new_issue_msg $app $bucket 'hash check failed')
                     continue
                 }
             } else {
-                info "Skipping hash verification."
+                info 'Skipping hash verification.'
             }
         }
     }

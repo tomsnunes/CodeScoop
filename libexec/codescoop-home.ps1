@@ -1,4 +1,4 @@
-# Usage: scoop home <app>
+# Usage: codescoop home <app>
 # Summary: Opens the app homepage
 param($app)
 

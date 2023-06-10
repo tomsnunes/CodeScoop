@@ -1,13 +1,13 @@
-# Usage: scoop virustotal [* | app1 app2 ...] [options]
+# Usage: codescoop virustotal [* | app1 app2 ...] [options]
 # Summary: Look for app's hash or url on virustotal.com
 # Help: Look for app's hash or url on virustotal.com
 #
 # Use a single '*' or the '-a/--all' switch to check all installed apps.
 #
 # To use this command, you have to sign up to VirusTotal's community,
-# and get an API key. Then, tell scoop about your API key with:
+# and get an API key. Then, tell codescoop about your API key with:
 #
-#   scoop config virustotal_api_key <your API key: 64 lower case hex digits>
+#   codescoop config virustotal_api_key <your API key: 64 lower case hex digits>
 #
 # Exit codes:
 #  0 -> success
@@ -35,7 +35,7 @@
 . "$PSScriptRoot\..\lib\depends.ps1" # 'Get-Dependency'
 
 $opt, $apps, $err = getopt $args 'asnup' @('all', 'scan', 'no-depends', 'no-update-scoop', 'passthru')
-if ($err) { "scoop virustotal: $err"; exit 1 }
+if ($err) { "codescoop virustotal: $err"; exit 1 }
 if (!$apps) { my_usage; exit 1 }
 $architecture = Format-ArchitectureString
 
@@ -43,7 +43,7 @@ if (is_scoop_outdated) {
     if ($opt.u -or $opt.'no-update-scoop') {
         warn 'Scoop is out of date.'
     } else {
-        scoop update
+        codescoop update
     }
 }
 
@@ -70,7 +70,7 @@ $api_key = get_config VIRUSTOTAL_API_KEY
 if (!$api_key) {
     abort ("VirusTotal API key is not configured`n" +
         "  You could get one from https://www.virustotal.com/gui/my-apikey and set with`n" +
-        "  scoop config virustotal_api_key <API key>") $_ERR_NO_API_KEY
+        '  codescoop config virustotal_api_key <API key>') $_ERR_NO_API_KEY
 }
 
 # Global flag to explain only once about sleep between requests
@@ -140,11 +140,11 @@ Function Get-VirusTotalResultByHash ($hash, $url, $app) {
             }
         }
         $maliciousResults = $vendorResults |
-            Where-Object -Property category -EQ 'malicious' |
-            Select-Object -ExpandProperty engine_name
+        Where-Object -Property category -EQ 'malicious' |
+        Select-Object -ExpandProperty engine_name
         $suspiciousResults = $vendorResults |
-            Where-Object -Property category -EQ 'suspicious' |
-            Select-Object -ExpandProperty engine_name
+        Where-Object -Property category -EQ 'suspicious' |
+        Select-Object -ExpandProperty engine_name
         [PSCustomObject] @{
             'App.Name'              = $app
             'App.Url'               = $url

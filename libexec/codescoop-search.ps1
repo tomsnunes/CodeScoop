@@ -1,4 +1,4 @@
-# Usage: scoop search <query>
+# Usage: codescoop search <query>
 # Summary: Search available apps
 # Help: Searches for apps that are available to install.
 #
@@ -20,7 +20,7 @@ try {
 $githubtoken = Get-GitHubToken
 $authheader = @{}
 if ($githubtoken) {
-    $authheader = @{'Authorization' = "token $githubtoken"}
+    $authheader = @{'Authorization' = "token $githubtoken" }
 }
 
 function bin_match($manifest, $query) {
@@ -64,7 +64,7 @@ function github_ratelimit_reached {
     $ret = (download_json $api_link).rate.remaining -eq 0
     if ($ret) {
         Write-Host "GitHub API rate limit reached.
-Please try again later or configure your API token using 'scoop config gh_token <your token>'."
+Please try again later or configure your API token using 'codescoop config gh_token <your token>'."
     }
     $ret
 }
@@ -76,8 +76,8 @@ function search_remote($bucket, $query) {
         $repo_name = $Matches[2]
         $api_link = "https://api.github.com/repos/$user/$repo_name/git/trees/HEAD?recursive=1"
         $result = download_json $api_link | Select-Object -ExpandProperty tree |
-            Where-Object -Value "^bucket/(.*$query.*)\.json$" -Property Path -Match |
-            ForEach-Object { $Matches[1] }
+        Where-Object -Value "^bucket/(.*$query.*)\.json$" -Property Path -Match |
+        ForEach-Object { $Matches[1] }
     }
 
     $result
@@ -88,12 +88,12 @@ function search_remotes($query) {
     $names = $buckets | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty name
 
     $results = $names | Where-Object { !(Test-Path $(Find-BucketDirectory $_)) } | ForEach-Object {
-        @{ "bucket" = $_; "results" = (search_remote $_ $query) }
+        @{ 'bucket' = $_; 'results' = (search_remote $_ $query) }
     } | Where-Object { $_.results }
 
     if ($results.count -gt 0) {
         Write-Host "Results from other known buckets...
-(add them using 'scoop bucket add <bucket name>')"
+(add them using 'codescoop bucket add <bucket name>')"
     }
 
     $results | ForEach-Object {
@@ -120,7 +120,7 @@ Get-LocalBucket | ForEach-Object {
             $item.Name = $_.name
             $item.Version = $_.version
             $item.Source = $name
-            $item.Binaries = ""
+            $item.Binaries = ''
             if ($_.bin) { $item.Binaries = $_.bin -join ' | ' }
             $list += [PSCustomObject]$item
         }
@@ -128,14 +128,14 @@ Get-LocalBucket | ForEach-Object {
 }
 
 if ($list.Length -gt 0) {
-    Write-Host "Results from local buckets..."
+    Write-Host 'Results from local buckets...'
     $list
 }
 
 if (!$local_results -and !(github_ratelimit_reached)) {
     $remote_results = search_remotes $query
     if (!$remote_results) {
-        warn "No matches found."
+        warn 'No matches found.'
         exit 1
     }
     $remote_results

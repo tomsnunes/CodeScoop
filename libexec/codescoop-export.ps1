@@ -1,4 +1,4 @@
-# Usage: scoop export > scoopfile.json
+# Usage: codescoop export > scoopfile.json
 # Summary: Exports installed apps, buckets (and optionally configs) in JSON format
 # Help: Options:
 #   -c, --config       Export the Scoop configuration file too

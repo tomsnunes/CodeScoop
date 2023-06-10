@@ -1,10 +1,10 @@
-# Usage: scoop unhold <app>
+# Usage: codescoop unhold <app>
 # Summary: Unhold an app to enable updates
 # Help: To unhold a user-scoped app:
-#      scoop unhold <app>
+#      codescoop unhold <app>
 #
 # To unhold a global app:
-#      scoop unhold -g <app>
+#      codescoop unhold -g <app>
 #
 # Options:
 #   -g, --global  Unhold globally installed apps
@@ -15,7 +15,7 @@
 . "$PSScriptRoot\..\lib\versions.ps1" # 'Select-CurrentVersion'
 
 $opt, $apps, $err = getopt $args 'g' 'global'
-if ($err) { "scoop unhold: $err"; exit 1 }
+if ($err) { "codescoop unhold: $err"; exit 1 }
 
 $global = $opt.g -or $opt.global
 
@@ -32,7 +32,7 @@ if ($global -and !(is_admin)) {
 $apps | ForEach-Object {
     $app = $_
 
-    if ($app -eq 'scoop') {
+    if ($app -eq 'codescoop') {
         set_config HOLD_UPDATE_UNTIL $null | Out-Null
         success "$app is no longer held and can be updated again."
         return
@@ -46,7 +46,7 @@ $apps | ForEach-Object {
         return
     }
 
-    if (get_config NO_JUNCTION){
+    if (get_config NO_JUNCTION) {
         $version = Select-CurrentVersion -App $app -Global:$global
     } else {
         $version = 'current'

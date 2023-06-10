@@ -1,4 +1,4 @@
-# Usage: scoop depends <app>
+# Usage: codescoop depends <app>
 # Summary: List dependencies for an app, in the order they'll be installed
 
 . "$PSScriptRoot\..\lib\getopt.ps1"
@@ -8,7 +8,7 @@
 $opt, $apps, $err = getopt $args 'a:' 'arch='
 $app = $apps[0]
 
-if(!$app) { error '<app> missing'; my_usage; exit 1 }
+if (!$app) { error '<app> missing'; my_usage; exit 1 }
 
 $architecture = Get-DefaultArchitecture
 try {

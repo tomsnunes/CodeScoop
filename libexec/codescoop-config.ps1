@@ -1,22 +1,22 @@
-# Usage: scoop config [rm] name [value]
+# Usage: codescoop config [rm] name [value]
 # Summary: Get or set configuration values
-# Help: The scoop configuration file is saved at ~/.config/scoop/config.json.
+# Help: The codescoop configuration file is saved at ~/.config/codescoop/config.json.
 #
 # To get all configuration settings:
 #
-#     scoop config
+#     codescoop config
 #
 # To get a configuration setting:
 #
-#     scoop config <name>
+#     codescoop config <name>
 #
 # To set a configuration setting:
 #
-#     scoop config <name> <value>
+#     codescoop config <name> <value>
 #
 # To remove a configuration setting:
 #
-#     scoop config rm <name>
+#     codescoop config rm <name>
 #
 # Settings
 # --------
@@ -31,7 +31,7 @@
 #       The 'current' version alias will not be used. Shims and shortcuts will point to specific version instead.
 #
 # scoop_repo: http://github.com/ScoopInstaller/Scoop
-#       Git repository containining scoop source code.
+#       Git repository containining codescoop source code.
 #       This configuration is useful for custom forks.
 #
 # scoop_branch: master|develop
@@ -62,14 +62,14 @@
 #       Force apps updating to bucket's version.
 #
 # show_update_log: $true|$false
-#       Do not show changed commits on 'scoop update'
+#       Do not show changed commits on 'codescoop update'
 #
 # show_manifest: $true|$false
 #       Displays the manifest of every app that's about to
 #       be installed, then asks user if they wish to proceed.
 #
 # shim: kiennq|scoopcs|71
-#       Choose scoop shim build.
+#       Choose codescoop shim build.
 #
 # root_path: $Env:UserProfile\codescoop
 #       Path to Scoop root directory.
@@ -91,8 +91,8 @@
 #
 # cat_style:
 #       When set to a non-empty string, Scoop will use 'bat' to display the manifest for
-#       the `scoop cat` command and while doing manifest review. This requires 'bat' to be
-#       installed (run `scoop install bat` to install it), otherwise errors will be thrown.
+#       the `codescoop cat` command and while doing manifest review. This requires 'bat' to be
+#       installed (run `codescoop install bat` to install it), otherwise errors will be thrown.
 #       The accepted values are the same as ones passed to the --style flag of 'bat'.
 #
 # ignore_running_processes: $true|$false
@@ -107,7 +107,7 @@
 #
 # hold_update_until:
 #       Disable/Hold Scoop self-updates, until the specified date.
-#       `scoop hold scoop` will set the value to one day later.
+#       `codescoop hold codescoop` will set the value to one day later.
 #       Should be in the format 'YYYY-MM-DD', 'YYYY/MM/DD' or any other forms that accepted by '[System.DateTime]::Parse()'.
 #       Ref: https://docs.microsoft.com/dotnet/api/system.datetime.parse?view=netframework-4.5#StringToParse
 #
@@ -176,7 +176,7 @@ if (!$name) {
     }
     # END NOTE
     $value = get_config $name
-    if($null -eq $value) {
+    if ($null -eq $value) {
         Write-Host "'$name' is not set"
     } else {
         if ($value -is [System.DateTime]) {

@@ -1,4 +1,4 @@
-# Usage: scoop info <app> [--verbose]
+# Usage: codescoop info <app> [--verbose]
 # Summary: Display information about an app
 # Options:
 #   -v, --verbose       Show full paths and URLs
@@ -8,7 +8,7 @@
 . "$PSScriptRoot\..\lib\versions.ps1" # 'Get-InstalledVersion'
 
 $opt, $app, $err = getopt $args 'v' 'verbose'
-if ($err) { error "scoop info: $err"; exit 1 }
+if ($err) { error "codescoop info: $err"; exit 1 }
 $verbose = $opt.v -or $opt.verbose
 
 if (!$app) { my_usage; exit 1 }
@@ -35,7 +35,7 @@ if ($verbose) {
     $original_dir = versiondir $app $manifest.version $global
     $persist_dir = persistdir $app $global
 } else {
-    $dir, $original_dir, $persist_dir = "<root>", "<root>", "<root>"
+    $dir, $original_dir, $persist_dir = '<root>', '<root>', '<root>'
 }
 
 if ($status.installed) {
@@ -69,7 +69,7 @@ if ($manifest.license) {
         $manifest.license
     } elseif ($manifest.license -match '[|,]') {
         if ($verbose) {
-            "$($manifest.license) ($(($manifest.license -Split "\||," | ForEach-Object { "https://spdx.org/licenses/$_.html" }) -join ', '))"
+            "$($manifest.license) ($(($manifest.license -Split '\||,' | ForEach-Object { "https://spdx.org/licenses/$_.html" }) -join ', '))"
         } else {
             $manifest.license
         }
@@ -102,7 +102,7 @@ if ($status.installed) {
     # Show installed versions
     $installed_output = @()
     Get-InstalledVersion -AppName $app -Global:$global | ForEach-Object {
-        $installed_output += if ($verbose) { versiondir $app $_ $global } else { "$_$(if ($global) { " *global*" })" }
+        $installed_output += if ($verbose) { versiondir $app $_ $global } else { "$_$(if ($global) { ' *global*' })" }
     }
     $item.Installed = $installed_output -join "`n"
 
@@ -161,7 +161,7 @@ if ($status.installed) {
         foreach ($url in @(url $manifest (Get-DefaultArchitecture))) {
             try {
                 if (Test-Path (fullpath (cache_path $app $manifest.version $url))) {
-                    $cached = " (latest version is cached)"
+                    $cached = ' (latest version is cached)'
                 } else {
                     $cached = $null
                 }
@@ -196,7 +196,7 @@ if ($binaries) {
             $binary_output += $_
         }
     }
-    $item.Binaries = $binary_output -join " | "
+    $item.Binaries = $binary_output -join ' | '
 }
 $shortcuts = @(arch_specific 'shortcuts' $manifest $install.architecture)
 if ($shortcuts) {
@@ -204,13 +204,13 @@ if ($shortcuts) {
     $shortcuts | ForEach-Object {
         $shortcut_output += $_[1]
     }
-    $item.Shortcuts = $shortcut_output -join " | "
+    $item.Shortcuts = $shortcut_output -join ' | '
 }
 $env_set = arch_specific 'env_set' $manifest $install.architecture
 if ($env_set) {
     $env_vars = @()
     $env_set | Get-Member -member noteproperty | ForEach-Object {
-        $env_vars += "$($_.name) = $(format $env_set.$($_.name) @{ "dir" = $dir })"
+        $env_vars += "$($_.name) = $(format $env_set.$($_.name) @{ 'dir' = $dir })"
     }
     $item.Environment = $env_vars -join "`n"
 }

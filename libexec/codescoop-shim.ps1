@@ -1,26 +1,26 @@
-# Usage: scoop shim <subcommand> [<shim_name>...] [options] [other_args]
+# Usage: codescoop shim <subcommand> [<shim_name>...] [options] [other_args]
 # Summary: Manipulate Scoop shims
 # Help: Available subcommands: add, rm, list, info, alter.
 #
 # To add a custom shim, use the 'add' subcommand:
 #
-#     scoop shim add <shim_name> <command_path> [<args>...]
+#     codescoop shim add <shim_name> <command_path> [<args>...]
 #
 # To remove shims, use the 'rm' subcommand: (CAUTION: this could remove shims added by an app manifest)
 #
-#     scoop shim rm <shim_name> [<shim_name>...]
+#     codescoop shim rm <shim_name> [<shim_name>...]
 #
 # To list all shims or matching shims, use the 'list' subcommand:
 #
-#     scoop shim list [<shim_name>/<pattern>...]
+#     codescoop shim list [<shim_name>/<pattern>...]
 #
 # To show a shim's information, use the 'info' subcommand:
 #
-#     scoop shim info <shim_name>
+#     codescoop shim info <shim_name>
 #
 # To alternate a shim's target source, use the 'alter' subcommand:
 #
-#     scoop shim alter <shim_name>
+#     codescoop shim alter <shim_name>
 #
 # Options:
 #   -g, --global       Manipulate global shim(s)
@@ -29,7 +29,7 @@
 # and will NOT be included in arguments, so if you want to pass arguments like '-g' or '--global' to
 # the shim, put them after a '--'. Note that in PowerShell, you must use a QUOTED '--', e.g.,
 #
-#     scoop shim add myapp 'D:\path\myapp.exe' '--' myapp_args --global
+#     codescoop shim add myapp 'D:\path\myapp.exe' '--' myapp_args --global
 
 param($SubCommand)
 
@@ -47,7 +47,7 @@ if ($SubCommand -notin @('add', 'rm', 'list', 'info', 'alter')) {
 }
 
 $opt, $other, $err = getopt $Args 'g' 'global'
-if ($err) { "scoop shim: $err"; exit 1 }
+if ($err) { "codescoop shim: $err"; exit 1 }
 
 $global = $opt.g -or $opt.global
 
@@ -116,7 +116,7 @@ switch ($SubCommand) {
             Write-Host '...'
             shim $commandPath $global $shimName $commandArgs
         } else {
-            Write-Host "ERROR: Command path does not exist: " -ForegroundColor Red -NoNewline
+            Write-Host 'ERROR: Command path does not exist: ' -ForegroundColor Red -NoNewline
             Write-Host $($other[1]) -ForegroundColor Cyan
             exit 3
         }
@@ -146,7 +146,7 @@ switch ($SubCommand) {
                 $pattern = $_
                 [Regex]::New($pattern)
             } catch {
-                Write-Host "ERROR: Invalid pattern: " -ForegroundColor Red -NoNewline
+                Write-Host 'ERROR: Invalid pattern: ' -ForegroundColor Red -NoNewline
                 Write-Host $pattern -ForegroundColor Magenta
                 exit 1
             }
@@ -155,13 +155,13 @@ switch ($SubCommand) {
         $shims = @()
         if (!$global) {
             $shims += Get-ChildItem -Path $localShimDir -Recurse -Include '*.shim', '*.ps1' |
-                Where-Object { !$pattern -or ($_.BaseName -match $pattern) } |
-                Select-Object -ExpandProperty FullName
+            Where-Object { !$pattern -or ($_.BaseName -match $pattern) } |
+            Select-Object -ExpandProperty FullName
         }
         if (Test-Path $globalShimDir) {
             $shims += Get-ChildItem -Path $globalShimDir -Recurse -Include '*.shim', '*.ps1' |
-                Where-Object { !$pattern -or ($_.BaseName -match $pattern) } |
-                Select-Object -ExpandProperty FullName
+            Where-Object { !$pattern -or ($_.BaseName -match $pattern) } |
+            Select-Object -ExpandProperty FullName
         }
         $shims.ForEach({ Get-ShimInfo $_ }) | Add-Member -TypeName 'ScoopShims' -PassThru
     }
@@ -175,7 +175,7 @@ switch ($SubCommand) {
             Write-Host $shimName -ForegroundColor Cyan
             if (Get-ShimPath $shimName (!$global)) {
                 Write-Host "But a $(if ($global) { 'local' } else {'global' }) shim exists, " -NoNewline
-                Write-Host "run 'scoop shim info $shimName$(if (!$global) { ' --global' })' to show its info"
+                Write-Host "run 'codescoop shim info $shimName$(if (!$global) { ' --global' })' to show its info"
                 exit 2
             }
             exit 3
@@ -228,7 +228,7 @@ switch ($SubCommand) {
             Write-Host $shimName -ForegroundColor Cyan
             if (Get-ShimPath $shimName (!$global)) {
                 Write-Host "But a $(if ($global) { 'local' } else {'global' }) shim exists, " -NoNewline
-                Write-Host "run 'scoop shim alter $shimName$(if (!$global) { ' --global' })' to alternate its source"
+                Write-Host "run 'codescoop shim alter $shimName$(if (!$global) { ' --global' })' to alternate its source"
                 exit 2
             }
             exit 3

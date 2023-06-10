@@ -1,6 +1,6 @@
-# Usage: scoop uninstall <app> [options]
+# Usage: codescoop uninstall <app> [options]
 # Summary: Uninstall an app
-# Help: e.g. scoop uninstall git
+# Help: e.g. codescoop uninstall git
 #
 # Options:
 #   -g, --global   Uninstall a globally installed app
@@ -17,7 +17,7 @@
 $opt, $apps, $err = getopt $args 'gp' 'global', 'purge'
 
 if ($err) {
-    error "scoop uninstall: $err"
+    error "codescoop uninstall: $err"
     exit 1
 }
 
@@ -35,7 +35,7 @@ if ($global -and !(is_admin)) {
     exit 1
 }
 
-if ($apps -eq 'scoop') {
+if ($apps -eq 'codescoop') {
     & "$PSScriptRoot\..\bin\uninstall.ps1" $global $purge
     exit
 }

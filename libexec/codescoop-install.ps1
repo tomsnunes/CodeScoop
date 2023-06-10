@@ -1,17 +1,17 @@
-# Usage: scoop install <app> [options]
+# Usage: codescoop install <app> [options]
 # Summary: Install apps
 # Help: e.g. The usual way to install an app (uses your local 'buckets'):
-#      scoop install git
+#      codescoop install git
 #
 # To install a different version of the app
 # (note that this will auto-generate the manifest using current version):
-#      scoop install gh@2.7.0
+#      codescoop install gh@2.7.0
 #
 # To install an app from a manifest at a URL:
-#      scoop install https://raw.githubusercontent.com/ScoopInstaller/Main/master/bucket/runat.json
+#      codescoop install https://raw.githubusercontent.com/ScoopInstaller/Main/master/bucket/runat.json
 #
 # To install an app from a manifest on your computer
-#      scoop install \path\to\app.json
+#      codescoop install \path\to\app.json
 #
 # Options:
 #   -g, --global                    Install the app globally
@@ -33,7 +33,7 @@
 . "$PSScriptRoot\..\lib\depends.ps1"
 
 $opt, $apps, $err = getopt $args 'gikusa:' 'global', 'independent', 'no-cache', 'no-update-scoop', 'skip', 'arch='
-if ($err) { "scoop install: $err"; exit 1 }
+if ($err) { "codescoop install: $err"; exit 1 }
 
 $global = $opt.g -or $opt.global
 $check_hash = !($opt.s -or $opt.skip)
@@ -54,9 +54,9 @@ if ($global -and !(is_admin)) {
 
 if (is_scoop_outdated) {
     if ($opt.u -or $opt.'no-update-scoop') {
-        warn "Scoop is out of date."
+        warn 'Scoop is out of date.'
     } else {
-        scoop update
+        codescoop update
     }
 }
 
@@ -69,7 +69,7 @@ if ($apps.length -eq 1) {
     }
     $curVersion = Select-CurrentVersion -AppName $app -Global:$global
     if ($null -eq $version -and $curVersion) {
-        warn "'$app' ($curVersion) is already installed.`nUse 'scoop update $app$(if ($global) { ' --global' })' to install a new version."
+        warn "'$app' ($curVersion) is already installed.`nUse 'codescoop update $app$(if ($global) { ' --global' })' to install a new version."
         exit 0
     }
 }
@@ -90,7 +90,7 @@ if ($specific_versions.length -gt 0) {
 $specific_versions_paths = $specific_versions | ForEach-Object {
     $app, $bucket, $version = parse_app $_
     if (installed_manifest $app $version) {
-        warn "'$app' ($version) is already installed.`nUse 'scoop update $app$(if ($global) { " --global" })' to install a new version."
+        warn "'$app' ($version) is already installed.`nUse 'codescoop update $app$(if ($global) { ' --global' })' to install a new version."
         continue
     }
 
@@ -118,8 +118,8 @@ $skip | Where-Object { $explicit_apps -contains $_ } | ForEach-Object {
 $suggested = @{ };
 if ((Test-Aria2Enabled) -and (get_config 'aria2-warning-enabled' $true)) {
     warn "Scoop uses 'aria2c' for multi-connection downloads."
-    warn "Should it cause issues, run 'scoop config aria2-enabled false' to disable it."
-    warn "To disable this warning, run 'scoop config aria2-warning-enabled false'."
+    warn "Should it cause issues, run 'codescoop config aria2-enabled false' to disable it."
+    warn "To disable this warning, run 'codescoop config aria2-warning-enabled false'."
 }
 $apps | ForEach-Object { install_app $_ $architecture $global $suggested $use_cache $check_hash }
 

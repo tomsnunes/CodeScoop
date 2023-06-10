@@ -2,9 +2,9 @@
 <Configuration>
     <ViewDefinitions>
         <View>
-            <Name>ScoopAppsType</Name>
+            <Name>CodeScoopAppsType</Name>
             <ViewSelectedBy>
-                <TypeName>ScoopApps</TypeName>
+                <TypeName>CodeScoopApps</TypeName>
             </ViewSelectedBy>
             <TableControl>
                 <TableRowEntries>
@@ -32,9 +32,9 @@
             </TableControl>
         </View>
         <View>
-            <Name>ScoopShimsType</Name>
+            <Name>CodeScoopShimsType</Name>
             <ViewSelectedBy>
-                <TypeName>ScoopShims</TypeName>
+                <TypeName>CodeScoopShims</TypeName>
             </ViewSelectedBy>
             <TableControl>
                 <TableRowEntries>
@@ -61,9 +61,9 @@
             </TableControl>
         </View>
         <View>
-            <Name>ScoopStatusType</Name>
+            <Name>CodeScoopStatusType</Name>
             <ViewSelectedBy>
-                <TypeName>ScoopStatus</TypeName>
+                <TypeName>CodeScoopStatus</TypeName>
             </ViewSelectedBy>
             <TableControl>
                 <TableRowEntries>

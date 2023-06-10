@@ -1,5 +1,5 @@
 <p align="center">
-<!--<img src="scoop.png" alt="Long live Scoop!"/>-->
+<!--<img src="scoop.png" alt="Long live CodeScoop!"/>-->
     <h1 align="center">Scoop</h1>
 </p>
 <p align="center">
@@ -32,11 +32,11 @@
     </a>
 </p>
 
-Scoop is a command-line installer for Windows.
+CodeScoop is a command-line installer for Windows.
 
-## What does Scoop do?
+## What does CodeScoop do?
 
-Scoop installs programs from the command line with a minimal amount of friction. It:
+CodeScoop installs programs from the command line with a minimal amount of friction. It:
 
 - Eliminates permission popup windows
 - Hides GUI wizard-style installers
@@ -45,7 +45,7 @@ Scoop installs programs from the command line with a minimal amount of friction.
 - Finds and installs dependencies automatically
 - Performs all the extra setup steps itself to get a working program
 
-Scoop is very scriptable, so you can run repeatable setups to get your environment just the way you like, e.g.:
+CodeScoop is very scriptable, so you can run repeatable setups to get your environment just the way you like, e.g.:
 
 ```powershell
 scoop install sudo
@@ -54,11 +54,11 @@ scoop install aria2 curl grep sed less touch
 scoop install python ruby go perl
 ```
 
-If you've built software that you'd like others to use, Scoop is an alternative to building an installer (e.g. MSI or InnoSetup) — you just need to zip your program and provide a JSON manifest that describes how to install it.
+If you've built software that you'd like others to use, CodeScoop is an alternative to building an installer (e.g. MSI or InnoSetup) — you just need to zip your program and provide a JSON manifest that describes how to install it.
 
 ## Installation
 
-Run the following command from a **non-admin** PowerShell to install scoop to its default location `C:\Users\<YOUR USERNAME>\scoop`.
+Run the following command from a **non-admin** PowerShell to install scoop to its default location `C:\Users\<YOUR USERNAME>\codescoop`.
 
 ```powershell
 iwr -useb get.scoop.sh | iex
@@ -70,7 +70,7 @@ Advanced installation instruction and full documentation of the installer are av
 
 ## Multi-connection downloads with `aria2`
 
-Scoop can utilize [`aria2`](https://github.com/aria2/aria2) to use multi-connection downloads. Simply install `aria2` through Scoop and it will be used for all downloads afterward.
+CodeScoop can utilize [`aria2`](https://github.com/aria2/aria2) to use multi-connection downloads. Simply install `aria2` through CodeScoop and it will be used for all downloads afterward.
 
 ```powershell
 scoop install aria2
@@ -93,21 +93,21 @@ You can tweak the following `aria2` settings with the `scoop config` command:
 - [Homebrew](http://mxcl.github.io/homebrew/)
 - [sub](https://github.com/37signals/sub#readme)
 
-## What sort of apps can Scoop install?
+## What sort of apps can CodeScoop install?
 
-The apps that install best with Scoop are commonly called "portable" apps: i.e. compressed program files that run stand-alone when extracted and don't have side-effects like changing the registry or putting files outside the program directory.
+The apps that install best with CodeScoop are commonly called "portable" apps: i.e. compressed program files that run stand-alone when extracted and don't have side-effects like changing the registry or putting files outside the program directory.
 
-Since installers are common, Scoop supports them too (and their uninstallers).
+Since installers are common, CodeScoop supports them too (and their uninstallers).
 
-Scoop is also great at handling single-file programs and Powershell scripts. These don't even need to be compressed. See the [runat](https://github.com/ScoopInstaller/Main/blob/master/bucket/runat.json) package for an example: it's really just a GitHub gist.
+CodeScoop is also great at handling single-file programs and Powershell scripts. These don't even need to be compressed. See the [runat](https://github.com/ScoopInstaller/Main/blob/master/bucket/runat.json) package for an example: it's really just a GitHub gist.
 
 ### Contribute to this project
 
-If you'd like to improve Scoop by adding features or fixing bugs, please read our [Contributing Guide](https://github.com/ScoopInstaller/.github/blob/main/.github/CONTRIBUTING.md).
+If you'd like to improve CodeScoop by adding features or fixing bugs, please read our [Contributing Guide](https://github.com/ScoopInstaller/.github/blob/main/.github/CONTRIBUTING.md).
 
 ### Support this project
 
-If you find Scoop useful and would like to support ongoing development and maintenance, here's how:
+If you find CodeScoop useful and would like to support ongoing development and maintenance, here's how:
 
 - [PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DM2SUH9EUXSKJ) (one-time donation)
 
@@ -140,4 +140,4 @@ scoop bucket add extras
 
 ## Other application buckets
 
-Many other application buckets hosted on Github can be found in the [Scoop Directory](https://rasa.github.io/scoop-directory/) or via [other search engines](https://rasa.github.io/scoop-directory/#other-search-engines).
+Many other application buckets hosted on Github can be found in the [CodeScoop Directory](https://rasa.github.io/scoop-directory/) or via [other search engines](https://rasa.github.io/scoop-directory/#other-search-engines).

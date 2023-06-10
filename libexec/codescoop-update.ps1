@@ -75,7 +75,7 @@ function update_scoop($show_update_log) {
         git_cmd clone -q $configRepo --branch $configBranch --single-branch "`"$newdir`""
 
         # check if scoop was successful downloaded
-        if (!(Test-Path "$newdir\bin\scoop.ps1")) {
+        if (!(Test-Path "$newdir\bin\codescoop.ps1")) {
             Remove-Item $newdir -Force -Recurse
             abort "Scoop download failed. If this appears several times, try removing SCOOP_REPO by 'scoop config rm SCOOP_REPO'"
         } else {
@@ -147,7 +147,7 @@ function update_scoop($show_update_log) {
     #     add_bucket 'main'
     # }
 
-    shim "$currentdir\bin\scoop.ps1" $false
+    shim "$currentdir\bin\codescoop.ps1" $false
 }
 
 function update_bucket($show_update_log) {

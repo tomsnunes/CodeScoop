@@ -58,7 +58,7 @@ if ($SubCommand -ne 'list' -and $other.Length -eq 0) {
 }
 
 if (-not (Get-FormatData ScoopShims)) {
-    Update-FormatData "$PSScriptRoot\..\supporting\formats\ScoopTypes.Format.ps1xml"
+    Update-FormatData "$PSScriptRoot\..\supporting\formats\codescoopTypes.Format.ps1xml"
 }
 
 $localShimDir = shimdir $false

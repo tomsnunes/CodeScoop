@@ -8,7 +8,7 @@ param($query)
 
 $def_arch = Get-DefaultArchitecture
 if (-not (Get-FormatData ScoopApps)) {
-    Update-FormatData "$PSScriptRoot\..\supporting\formats\ScoopTypes.Format.ps1xml"
+    Update-FormatData "$PSScriptRoot\..\supporting\formats\codescoopTypes.Format.ps1xml"
 }
 
 $local = installed_apps $false | ForEach-Object { @{ name = $_ } }

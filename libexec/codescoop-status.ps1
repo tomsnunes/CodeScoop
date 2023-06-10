@@ -16,7 +16,7 @@ $no_remotes = $args[0] -eq '-l' -or $args[0] -eq '--local'
 if (!(Get-Command git -ErrorAction SilentlyContinue)) { $no_remotes = $true }
 $list = @()
 if (!(Get-FormatData ScoopStatus)) {
-    Update-FormatData "$PSScriptRoot\..\supporting\formats\ScoopTypes.Format.ps1xml"
+    Update-FormatData "$PSScriptRoot\..\supporting\formats\codescoopTypes.Format.ps1xml"
 }
 
 function Test-UpdateStatus($repopath) {

@@ -71,10 +71,10 @@
 # shim: kiennq|scoopcs|71
 #       Choose scoop shim build.
 #
-# root_path: $Env:UserProfile\scoop
+# root_path: $Env:UserProfile\codescoop
 #       Path to Scoop root directory.
 #
-# global_path: $Env:ProgramData\scoop
+# global_path: $Env:ProgramData\codescoop
 #       Path to Scoop root directory for global apps.
 #
 # cache_path:

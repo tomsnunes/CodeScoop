@@ -16,7 +16,7 @@ if ($args[0] -eq '-c' -or $args[0] -eq '--config') {
 }
 
 $export.buckets = list_buckets
-$export.apps = @(& "$PSScriptRoot\scoop-list.ps1" 6>$null)
+$export.apps = @(& "$PSScriptRoot\codescoop-list.ps1" 6>$null)
 
 $export | ConvertToPrettyJSON
 

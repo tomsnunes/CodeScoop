@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    Uninstall ALL scoop applications and scoop itself.
+    Uninstall ALL codescoop applications and codescoop itself.
 .PARAMETER global
     Global applications will be uninstalled.
 .PARAMETER purge
@@ -69,7 +69,7 @@ function rm_dir($dir) {
     }
 }
 
-# Remove all folders (except persist) inside given scoop directory.
+# Remove all folders (except persist) inside given codescoop directory.
 function keep_onlypersist($directory) {
     Get-ChildItem $directory -Exclude 'persist' | ForEach-Object { rm_dir $_ }
 }

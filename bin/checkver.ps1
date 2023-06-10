@@ -53,12 +53,12 @@
 param(
     [String] $App = '*',
     [ValidateScript( {
-        if (!(Test-Path $_ -Type Container)) {
-            throw "$_ is not a directory!"
-        } else {
-            $true
-        }
-    })]
+            if (!(Test-Path $_ -Type Container)) {
+                throw "$_ is not a directory!"
+            } else {
+                $true
+            }
+        })]
     [String] $Dir,
     [Switch] $Update,
     [Switch] $ForceUpdate,
@@ -206,7 +206,8 @@ $Queue | ForEach-Object {
         $xpath = $json.checkver.xpath
     }
 
-    if ($json.checkver.replace -is [System.String]) { # If `checkver` is [System.String], it has a method called `Replace`
+    if ($json.checkver.replace -is [System.String]) {
+        # If `checkver` is [System.String], it has a method called `Replace`
         $replace = $json.checkver.replace
     }
 
@@ -305,7 +306,7 @@ while ($in_progress -gt 0) {
         if ($xpath) {
             $xml = [xml]$page
             # Find all `significant namespace declarations` from the XML file
-            $nsList = $xml.SelectNodes("//namespace::*[not(. = ../../namespace::*)]")
+            $nsList = $xml.SelectNodes('//namespace::*[not(. = ../../namespace::*)]')
             # Then add them into the NamespaceManager
             $nsmgr = New-Object System.Xml.XmlNamespaceManager($xml.NameTable)
             $nsList | ForEach-Object {
@@ -376,7 +377,7 @@ while ($in_progress -gt 0) {
     }
 
     Write-Host $ver -ForegroundColor DarkRed -NoNewline
-    Write-Host " (scoop version is $expected_ver)" -NoNewline
+    Write-Host " (codescoop version is $expected_ver)" -NoNewline
     $update_available = (Compare-Version -ReferenceVersion $ver -DifferenceVersion $expected_ver) -ne 0
 
     if ($json.autoupdate -and $update_available) {

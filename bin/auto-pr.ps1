@@ -39,22 +39,22 @@
 param(
     [Parameter(Mandatory = $true)]
     [ValidateScript( {
-        if (!($_ -match '^(.*)\/(.*):(.*)$')) {
-            throw 'Upstream must be in this format: <user>/<repo>:<branch>'
-        }
-        $true
-    })]
+            if (!($_ -match '^(.*)\/(.*):(.*)$')) {
+                throw 'Upstream must be in this format: <user>/<repo>:<branch>'
+            }
+            $true
+        })]
     [String] $Upstream,
     [String] $OriginBranch = 'master',
     [String] $App = '*',
     [String] $CommitMessageFormat = '<app>: Update to version <version>',
     [ValidateScript( {
-        if (!(Test-Path $_ -Type Container)) {
-            throw "$_ is not a directory!"
-        } else {
-            $true
-        }
-    })]
+            if (!(Test-Path $_ -Type Container)) {
+                throw "$_ is not a directory!"
+            } else {
+                $true
+            }
+        })]
     [String] $Dir,
     [Switch] $Push,
     [Switch] $Request,
@@ -97,8 +97,8 @@ if ($IsLinux -or $IsMacOS) {
         exit 1
     }
 } else {
-    if (!(scoop which hub)) {
-        Write-Host "Please install hub 'scoop install hub'" -ForegroundColor Yellow
+    if (!(codescoop which hub)) {
+        Write-Host "Please install hub 'codescoop install hub'" -ForegroundColor Yellow
         exit 1
     }
 }
@@ -193,7 +193,7 @@ hub diff --name-only | ForEach-Object {
         return
     }
     $version = $json.version
-    $CommitMessage = $CommitMessageFormat -replace '<app>',$app -replace '<version>',$version
+    $CommitMessage = $CommitMessageFormat -replace '<app>', $app -replace '<version>', $version
     if ($Push) {
         Write-Host "Creating update $app ($version) ..." -ForegroundColor DarkCyan
         execute "hub add $manifest"

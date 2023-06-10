@@ -1,4 +1,4 @@
-## [v0.3.1](https://github.com/ScoopInstaller/Scoop/compare/v0.3.0...v0.3.1) - 2022-11-15
+## [v0.0.2](https://github.com/tomsnunes/CodeScoop/compare/v0.0.1...v0.0.2) - 2023-06-10
 
 ### Features
 

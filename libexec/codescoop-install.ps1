@@ -17,7 +17,7 @@
 #   -g, --global                    Install the app globally
 #   -i, --independent               Don't install dependencies automatically
 #   -k, --no-cache                  Don't use the download cache
-#   -u, --no-update-scoop           Don't update Scoop before installing if it's outdated
+#   -u, --no-update-codescoop       Don't update CodeScoop before installing if it's outdated
 #   -s, --skip                      Skip hash validation (use with caution!)
 #   -a, --arch <32bit|64bit|arm64>  Use the specified architecture, if the app supports it
 
@@ -32,7 +32,7 @@
 . "$PSScriptRoot\..\lib\versions.ps1"
 . "$PSScriptRoot\..\lib\depends.ps1"
 
-$opt, $apps, $err = getopt $args 'gikusa:' 'global', 'independent', 'no-cache', 'no-update-scoop', 'skip', 'arch='
+$opt, $apps, $err = getopt $args 'gikusa:' 'global', 'independent', 'no-cache', 'no-update-codescoop', 'skip', 'arch='
 if ($err) { "codescoop install: $err"; exit 1 }
 
 $global = $opt.g -or $opt.global
@@ -53,8 +53,8 @@ if ($global -and !(is_admin)) {
 }
 
 if (is_scoop_outdated) {
-    if ($opt.u -or $opt.'no-update-scoop') {
-        warn 'Scoop is out of date.'
+    if ($opt.u -or $opt.'no-update-codescoop') {
+        warn 'CodeScoop is out of date.'
     } else {
         codescoop update
     }
@@ -117,7 +117,7 @@ $skip | Where-Object { $explicit_apps -contains $_ } | ForEach-Object {
 
 $suggested = @{ };
 if ((Test-Aria2Enabled) -and (get_config 'aria2-warning-enabled' $true)) {
-    warn "Scoop uses 'aria2c' for multi-connection downloads."
+    warn "CodeScoop uses 'aria2c' for multi-connection downloads."
     warn "Should it cause issues, run 'codescoop config aria2-enabled false' to disable it."
     warn "To disable this warning, run 'codescoop config aria2-warning-enabled false'."
 }

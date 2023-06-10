@@ -25,7 +25,7 @@
 #                             for analysis (and future retrieval). This requires you to configure
 #                             your virustotal_api_key.
 #   -n, --no-depends          By default, all dependencies are checked too. This flag avoids it.
-#   -u, --no-update-scoop     Don't update Scoop before checking if it's outdated
+#   -u, --no-update-codescoop      Don't update Scoop before checking if it's outdated
 #   -p, --passthru            Return reports as objects
 
 . "$PSScriptRoot\..\lib\getopt.ps1"

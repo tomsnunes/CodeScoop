@@ -670,7 +670,7 @@ $CODESCOOP_CONFIG_FILE = "$CODESCOOP_CONFIG_HOME\codescoop\config.json"
 $CODESCOOP_PACKAGE_REPO = "https://github.com/tomsnunes/CodeScoop/archive/master.zip"
 $CODESCOOP_MAIN_BUCKET_REPO = "https://github.com/ScoopInstaller/Main/archive/master.zip"
 
-$CODESCOOP_PACKAGE_GIT_REPO = "https://github.com/ScoopInstaller/Scoop.git"
+$CODESCOOP_PACKAGE_GIT_REPO = "https://github.com/tomsnunes/CodeScoop.git"
 $CODESCOOP_MAIN_BUCKET_GIT_REPO = "https://github.com/ScoopInstaller/Main.git"
 
 # Quit if anything goes wrong

@@ -87,7 +87,7 @@ function Convert-RepositoryUri {
             $Matches.provider, $Matches.user, $Matches.repo -join '/'
         } else {
             error "$Uri is not a valid Git URL!"
-            error "Please see https://git-scm.com/docs/git-clone#_git_urls for valid ones."
+            error 'Please see https://git-scm.com/docs/git-clone#_git_urls for valid ones.'
             return $null
         }
     }
@@ -106,21 +106,21 @@ function list_buckets {
             $bucket.Updated = (Get-Item "$path\bucket").LastWriteTime
         }
         $bucket.Manifests = Get-ChildItem "$path\bucket" -Force -Recurse -ErrorAction SilentlyContinue |
-                Measure-Object | Select-Object -ExpandProperty Count
+        Measure-Object | Select-Object -ExpandProperty Count
         $buckets += [PSCustomObject]$bucket
     }
-    ,$buckets
+    , $buckets
 }
 
 function add_bucket($name, $repo) {
     if (!(Test-CommandAvailable git)) {
-        error "Git is required for buckets. Run 'scoop install git' and try again."
+        error "Git is required for buckets. Run 'codescoop install git' and try again."
         return 1
     }
 
     $dir = Find-BucketDirectory $name -Root
     if (Test-Path $dir) {
-        warn "The '$name' bucket already exists. To add this bucket again, first remove it by running 'scoop bucket rm $name'."
+        warn "The '$name' bucket already exists. To add this bucket again, first remove it by running 'codescoop bucket rm $name'."
         return 2
     }
 

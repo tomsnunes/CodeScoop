@@ -14,10 +14,10 @@ function check_windows_defender($global) {
 
                 $exclusionPath = (Get-MpPreference).ExclusionPath
                 if (!($exclusionPath -contains $installPath)) {
-                    info "Windows Defender may slow down or disrupt installs with realtime scanning."
-                    Write-Host "  Consider running:"
+                    info 'Windows Defender may slow down or disrupt installs with realtime scanning.'
+                    Write-Host '  Consider running:'
                     Write-Host "    sudo Add-MpPreference -ExclusionPath '$installPath'"
-                    Write-Host "  (Requires 'sudo' command. Run 'scoop install sudo' if you don't have it.)"
+                    Write-Host "  (Requires 'sudo' command. Run 'codescoop install sudo' if you don't have it.)"
                     return $false
                 }
             }
@@ -29,7 +29,7 @@ function check_windows_defender($global) {
 function check_main_bucket {
     if ((Get-LocalBucket) -notcontains 'main') {
         warn 'Main bucket is not added.'
-        Write-Host "  run 'scoop bucket add main'"
+        Write-Host "  run 'codescoop bucket add main'"
 
         return $false
     }
@@ -45,9 +45,9 @@ function check_long_paths {
     $key = Get-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -ErrorAction SilentlyContinue -Name 'LongPathsEnabled'
     if (!$key -or ($key.LongPathsEnabled -eq 0)) {
         warn 'LongPaths support is not enabled.'
-        Write-Host "  You can enable it by running:"
+        Write-Host '  You can enable it by running:'
         Write-Host "    sudo Set-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Name 'LongPathsEnabled' -Value 1"
-        Write-Host "  (Requires 'sudo' command. Run 'scoop install sudo' if you don't have it.)"
+        Write-Host "  (Requires 'sudo' command. Run 'codescoop install sudo' if you don't have it.)"
         return $false
     }
 
@@ -55,13 +55,13 @@ function check_long_paths {
 }
 
 function Get-WindowsDeveloperModeStatus {
-    $DevModRegistryPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock"
+    $DevModRegistryPath = 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock'
     if (!(Test-Path -Path $DevModRegistryPath) -or (Get-ItemProperty -Path `
-        $DevModRegistryPath -Name AllowDevelopmentWithoutDevLicense -ErrorAction `
-        SilentlyContinue).AllowDevelopmentWithoutDevLicense -ne 1) {
-        warn "Windows Developer Mode is not enabled. Operations relevant to symlinks may fail without proper rights."
-        Write-Host "  You may read more about the symlinks support here:"
-        Write-Host "  https://blogs.windows.com/windowsdeveloper/2016/12/02/symlinks-windows-10/"
+                $DevModRegistryPath -Name AllowDevelopmentWithoutDevLicense -ErrorAction `
+                SilentlyContinue).AllowDevelopmentWithoutDevLicense -ne 1) {
+        warn 'Windows Developer Mode is not enabled. Operations relevant to symlinks may fail without proper rights.'
+        Write-Host '  You may read more about the symlinks support here:'
+        Write-Host '  https://blogs.windows.com/windowsdeveloper/2016/12/02/symlinks-windows-10/'
         return $false
     }
 

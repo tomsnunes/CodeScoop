@@ -37,7 +37,7 @@ function Get-Dependency {
 
         if (!$manifest) {
             if (((Get-LocalBucket) -notcontains $bucket) -and $bucket) {
-                warn "Bucket '$bucket' not installed. Add it with 'scoop bucket add $bucket' or 'scoop bucket add $bucket <repo>'."
+                warn "Bucket '$bucket' not installed. Add it with 'codescoop bucket add $bucket' or 'codescoop bucket add $bucket <repo>'."
             }
             abort "Couldn't find manifest for '$AppName'$(if(!$bucket) { '.' } else { " from '$bucket' bucket." })"
         }

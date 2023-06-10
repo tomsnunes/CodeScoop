@@ -12,12 +12,12 @@ function command_name($filename) {
 }
 
 function command_path($cmd) {
-    $cmd_path = "$PSScriptRoot\..\libexec\scoop-$cmd.ps1"
+    $cmd_path = "$PSScriptRoot\..\libexec\codescoop-$cmd.ps1"
 
     # built in commands
     if (!(Test-Path $cmd_path)) {
         # get path from shim
-        $shim_path = "$scoopdir\shims\scoop-$cmd.ps1"
+        $shim_path = "$scoopdir\shims\codescoop-$cmd.ps1"
         $line = ((Get-Content $shim_path) | Where-Object { $_.startswith('$path') })
         if($line) {
             Invoke-Command ([scriptblock]::Create($line)) -NoNewScope

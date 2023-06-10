@@ -28,7 +28,8 @@ function Get-LatestVersion {
     }
 }
 
-function Select-CurrentVersion { # 'manifest.ps1'
+function Select-CurrentVersion {
+    # 'manifest.ps1'
     <#
     .SYNOPSIS
         Select current version of installed app, from 'current\manifest.json' or modified time of version directory
@@ -251,7 +252,7 @@ function SplitVersion {
 }
 
 # Deprecated
-# Not used anymore in scoop core
+# Not used anymore in codescoop core
 function qsort($ary, $fn) {
     warn '"qsort" is deprecated. Please avoid using it anymore.'
     if ($null -eq $ary) { return @() }
@@ -268,7 +269,7 @@ function qsort($ary, $fn) {
 }
 
 # Deprecated
-# Not used anymore in scoop core
+# Not used anymore in codescoop core
 function sort_versions($versions) {
     warn '"sort_versions" is deprecated. Please avoid using it anymore.'
     qsort $versions Compare-Version

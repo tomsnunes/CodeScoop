@@ -1,2 +1,5 @@
 #Requires -Version 5
-Invoke-RestMethod https://get.scoop.sh | Invoke-Expression
+
+$installScriptPath = '..\codescoop-install.ps1'
+$installScriptContent = Get-Content $installScriptPath -Raw
+Invoke-Expression $installScriptContent

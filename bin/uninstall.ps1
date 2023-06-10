@@ -23,9 +23,9 @@ if ($global -and !(is_admin)) {
 }
 
 if ($purge) {
-    warn 'This will uninstall Scoop, all the programs that have been installed with Scoop and all persisted data!'
+    warn 'This will uninstall CodeScoop, all the programs that have been installed with CodeScoop and all persisted data!'
 } else {
-    warn 'This will uninstall Scoop and all the programs that have been installed with Scoop!'
+    warn 'This will uninstall CodeScoop and all the programs that have been installed with CodeScoop!'
 }
 $yn = Read-Host 'Are you sure? (yN)'
 if ($yn -notlike 'y*') { exit }
@@ -101,4 +101,4 @@ if ($purge) {
 remove_from_path (shimdir $false)
 if ($global) { remove_from_path (shimdir $true) }
 
-success 'Scoop has been uninstalled.'
+success 'CodeScoop has been uninstalled.'

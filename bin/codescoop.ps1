@@ -19,7 +19,7 @@ switch ($subCommand) {
         exec 'help'
     }
     ({ $subCommand -in @('-v', '--version') }) {
-        Write-Host 'Current Scoop version:'
+        Write-Host 'Current CodeScoop version:'
         if ((Test-CommandAvailable git) -and (Test-Path "$PSScriptRoot\..\.git") -and (get_config SCOOP_BRANCH 'master') -ne 'master') {
             git -C "$PSScriptRoot\.." --no-pager log --oneline HEAD -n 1
         } else {
@@ -47,7 +47,7 @@ switch ($subCommand) {
         }
     }
     default {
-        warn "scoop: '$subCommand' isn't a scoop command. See 'scoop help'."
+        warn "codescoop: '$subCommand' isn't a codescoop command. See 'codescoop help'."
         exit 1
     }
 }

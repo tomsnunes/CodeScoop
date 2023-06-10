@@ -1,9 +1,9 @@
 BeforeAll {
-    . "$PSScriptRoot\Scoop-TestLib.ps1"
+    . "$PSScriptRoot\Codescoop-TestLib.ps1"
     . "$PSScriptRoot\..\lib\core.ps1"
 }
 
-Describe 'config' -Tag 'Scoop' {
+Describe 'config' -Tag 'CodeScoop' {
     BeforeAll {
         $configFile = [IO.Path]::GetTempFileName()
         $unicode = [Regex]::Unescape('\u4f60\u597d\u3053\u3093\u306b\u3061\u306f') # 你好こんにちは

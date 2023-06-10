@@ -5,7 +5,7 @@ param(
     [String] $BucketPath = $MyInvocation.PSScriptRoot
 )
 
-. "$PSScriptRoot\Scoop-00File.Tests.ps1" -TestPath $BucketPath
+. "$PSScriptRoot\codescoop-00File.Tests.ps1" -TestPath $BucketPath
 
 Describe 'Manifest validates against the schema' {
     BeforeDiscovery {
@@ -24,7 +24,7 @@ Describe 'Manifest validates against the schema' {
         }
     }
     BeforeAll {
-        Add-Type -Path "$PSScriptRoot\..\supporting\validator\bin\Scoop.Validator.dll"
+        Add-Type -Path "$PSScriptRoot\..\supporting\validator\bin\codescoop.Validator.dll"
         # Could not use backslash '\' in Linux/macOS for .NET object 'Scoop.Validator'
         $validator = New-Object Scoop.Validator("$PSScriptRoot/../schema.json", $true)
         $global:quotaExceeded = $false

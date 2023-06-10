@@ -57,7 +57,7 @@ Describe 'Handle ARM64 and correctly fallback' -Tag 'Scoop' {
 Describe 'Manifest Validator' -Tag 'Validator' {
     # Could not use backslash '\' in Linux/macOS for .NET object 'Scoop.Validator'
     BeforeAll {
-        Add-Type -Path "$PSScriptRoot\..\supporting\validator\bin\Scoop.Validator.dll"
+        Add-Type -Path "$PSScriptRoot\..\supporting\validator\bin\codescoop.Validator.dll"
         $schema = "$PSScriptRoot/../schema.json"
     }
 

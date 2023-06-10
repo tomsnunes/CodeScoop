@@ -1,5 +1,5 @@
 BeforeAll {
-    . "$PSScriptRoot\Scoop-TestLib.ps1"
+    . "$PSScriptRoot\codescoop-TestLib.ps1"
     . "$PSScriptRoot\..\lib\getopt.ps1"
 }
 

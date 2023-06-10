@@ -1,11 +1,11 @@
 BeforeAll {
-    . "$PSScriptRoot\Scoop-TestLib.ps1"
+    . "$PSScriptRoot\CodeScoop-TestLib.ps1"
     . "$PSScriptRoot\..\lib\core.ps1"
     . "$PSScriptRoot\..\lib\help.ps1"
-    . "$PSScriptRoot\..\libexec\scoop-alias.ps1" | Out-Null
+    . "$PSScriptRoot\..\libexec\codescoop-alias.ps1" | Out-Null
 }
 
-Describe 'Manipulate Alias' -Tag 'Scoop' {
+Describe 'Manipulate Alias' -Tag 'CodeScoop' {
     BeforeAll {
         Mock shimdir { "$TestDrive\shims" }
         Mock set_config { }
@@ -16,7 +16,7 @@ Describe 'Manipulate Alias' -Tag 'Scoop' {
     }
 
     It 'Creates a new alias if alias doesn''t exist' {
-        $alias_file = "$shimdir\scoop-rm.ps1"
+        $alias_file = "$shimdir\codescoop-rm.ps1"
         $alias_file | Should -Not -Exist
 
         add_alias 'rm' '"hello, world!"'
@@ -24,7 +24,7 @@ Describe 'Manipulate Alias' -Tag 'Scoop' {
     }
 
     It 'Does not change existing alias if alias exists' {
-        $alias_file = "$shimdir\scoop-rm.ps1"
+        $alias_file = "$shimdir\codescoop-rm.ps1"
         New-Item $alias_file -Type File -Force
         $alias_file | Should -Exist
 
@@ -33,7 +33,7 @@ Describe 'Manipulate Alias' -Tag 'Scoop' {
     }
 
     It 'Removes an existing alias' {
-        $alias_file = "$shimdir\scoop-rm.ps1"
+        $alias_file = "$shimdir\codescoop-rm.ps1"
         add_alias 'rm' '"hello, world!"'
 
         $alias_file | Should -Exist
